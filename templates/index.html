@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <section class="card">
+            <h1>Expense Tracker</h1>
+            <p>Submit expenses using server-rendered forms with idempotency protection.</p>
+
+            {% if message %}
+            <p class="notice">{{ message }}</p>
+            {% endif %}
+            {% if error %}
+            <p class="notice error">{{ error }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('create_expense') }}" method="post">
+                <div class="row">
+                    <div>
+                        <label for="amount">Amount (INR)</label>
+                        <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="e.g. 150.00" required>
+                    </div>
+                    <div>
+                        <label for="date">Date</label>
+                        <input id="date" name="date" type="date" required>
+                    </div>
+                    <div>
+                        <label for="category">Category</label>
+                        <input id="category" name="category" type="text" placeholder="e.g. Food" required>
+                    </div>
+                    <div>
+                        <label for="idempotency_key">Idempotency Key</label>
+                        <input id="idempotency_key" name="idempotency_key" type="text" placeholder="unique-key-123" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <input id="description" name="description" type="text" placeholder="Optional details">
+                </div>
+                <p><button type="submit">Add Expense</button></p>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Filters</h2>
+            <form action="{{ url_for('list_expenses') }}" method="get" class="toolbar">
+                <div>
+                    <label for="filter_category">Category</label>
+                    <select id="filter_category" name="category">
+                        <option value="">All</option>
+                        {% for category in categories %}
+                        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="sort">Sort</label>
+                    <select id="sort" name="sort">
+                        <option value="date_desc" {% if sort == 'date_desc' %}selected{% endif %}>Date (newest first)</option>
+                        <option value="date_asc" {% if sort == 'date_asc' %}selected{% endif %}>Date (oldest first)</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit">Apply</button>
+                </div>
+            </form>
+            <p class="total">Total: {{ total_cents | inr }}</p>
+        </section>
+
+        <section class="card">
+            <h2>Expenses</h2>
+            {% if expenses %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Idempotency Key</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense['date'] }}</td>
+                        <td>{{ expense['category'] }}</td>
+                        <td>{{ expense['description'] or '-' }}</td>
+                        <td>{{ expense['amount'] | inr }}</td>
+                        <td>{{ expense['idempotency_key'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty">No expenses found for the current filter.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

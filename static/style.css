@@ -1,0 +1,137 @@
+:root {
+    --bg: #f6f4ef;
+    --card: #fffdf8;
+    --text: #1d1b16;
+    --muted: #5f5a4f;
+    --line: #d7d1c3;
+    --accent: #1f6f5f;
+    --accent-2: #164f44;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Source Sans 3", "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top left, #fffaf0 0%, var(--bg) 40%, #ece8dd 100%);
+    color: var(--text);
+}
+
+.container {
+    max-width: 980px;
+    margin: 2rem auto;
+    padding: 0 1rem 2rem;
+}
+
+h1, h2 {
+    font-family: "Merriweather", Georgia, serif;
+    margin-top: 0;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 18px rgba(15, 15, 15, 0.05);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    font: inherit;
+}
+
+button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+button:hover {
+    background: var(--accent-2);
+}
+
+.toolbar {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.toolbar > div {
+    flex: 1;
+    min-width: 180px;
+}
+
+.total {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent-2);
+    margin: 0.5rem 0 0.2rem;
+}
+
+.notice {
+    margin: 0.5rem 0;
+    padding: 0.65rem;
+    border-radius: 8px;
+    border: 1px solid #bfd7cf;
+    background: #edf8f4;
+    color: #0d4c3e;
+}
+
+.error {
+    border-color: #e2b2b2;
+    background: #fff2f2;
+    color: #7f2424;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: 1px solid var(--line);
+    padding: 0.65rem;
+    text-align: left;
+}
+
+th {
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+.empty {
+    color: var(--muted);
+    font-style: italic;
+}
+
+@media (max-width: 700px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        margin-top: 1rem;
+    }
+}
